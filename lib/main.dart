@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:notice_app_isar/models/note_database.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final noteDatabase = NoteDatabase();
   await noteDatabase.init();
-  runApp(const MyApp());
+  
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => NoteDatabase(),
+      child: const MyApp(),
+    ));
 }
 
 class MyApp extends StatelessWidget {

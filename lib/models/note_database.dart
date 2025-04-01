@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:notice_app_isar/models/note.dart';
 import 'package:path_provider/path_provider.dart';
 
-class NoteDatabase {
+class NoteDatabase extends ChangeNotifier {
   static late Isar isar;
   //initializing the database
   Future<void> init() async {
@@ -19,6 +20,7 @@ class NoteDatabase {
 
     await isar.writeTxn(() => isar.notes.put(newNote));
     fetchNote();
+    
   }
 
   //reading the database
@@ -26,6 +28,7 @@ class NoteDatabase {
     List<Note> fetchedNotes = await isar.notes.where().findAll();
     currentNoteList.clear();
     currentNoteList.addAll(fetchedNotes);
+    notifyListeners();
   }
 
   //updating the database

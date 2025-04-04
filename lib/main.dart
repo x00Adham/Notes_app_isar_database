@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:notice_app_isar/models/note_database.dart';
 import 'package:notice_app_isar/screens/home_page.dart';
+import 'package:notice_app_isar/themes/themeprovider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
+  //initializing the isar database
   WidgetsFlutterBinding.ensureInitialized();
   final noteDatabase = NoteDatabase();
   await noteDatabase.init();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => NoteDatabase(),
+    //multi provider is used to provide multiple providers at once
+    MultiProvider(
+      providers: [
+        //* ChangeNotifierProvider is used to provide the NoteDatabase
+        ChangeNotifierProvider<NoteDatabase>(create: (context) => noteDatabase),
+
+        //* ChangeNotifierProvider is used to provide the Themeprovider
+        ChangeNotifierProvider<Themeprovider>(create: (context) => Themeprovider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -18,13 +27,12 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
-      );
+      home: const HomePage(),
+      theme: Provider.of<Themeprovider>(context).themeData,
+    );
   }
 }

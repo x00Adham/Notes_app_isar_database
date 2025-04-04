@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notice_app_isar/models/note.dart';
 import 'package:notice_app_isar/models/note_database.dart';
+import 'package:notice_app_isar/widgets/mydrawer.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -82,14 +83,16 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(),
+      appBar: AppBar(
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         onPressed: createNote,
         child: const Icon(Icons.add),
       ),
-      //! contiune drawer
-      drawer: const Drawer(),
+
+      drawer: const Mydrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notice_app_isar/models/note.dart';
 import 'package:notice_app_isar/models/note_database.dart';
 import 'package:notice_app_isar/widgets/mydrawer.dart';
+import 'package:notice_app_isar/widgets/note_tile.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -112,28 +113,7 @@ class _HomePageState extends State<HomePage> {
               itemCount: currentNotes.length,
               itemBuilder: (context, index) {
                 final note = currentNotes[index];
-                //return list tile
-                return ListTile(
-                  title: Text(note.title),
-                  //display the note title
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      //edit button
-                      IconButton(
-                        color: Theme.of(context).colorScheme.secondary,
-                        onPressed: () => updateNotes(note),
-                        icon: const Icon(Icons.edit),
-                      ),
-                      //delete button
-                      IconButton(
-                        color: Theme.of(context).colorScheme.secondary,
-                        onPressed: () => deleteNotes(note.id),
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
-                  ),
-                );
+                return NoteTile(text: note.title);
               },
             ),
           ),

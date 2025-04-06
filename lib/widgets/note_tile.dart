@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:notice_app_isar/widgets/note_settings.dart';
+import 'package:popover/popover.dart';
 
 class NoteTile extends StatelessWidget {
-  const NoteTile({super.key, required this.text});
+  const NoteTile({
+    super.key,
+    required this.text,
+    this.onEditPressed,
+    this.onDeletePressed,
+  });
   final String text;
+  final void Function()? onEditPressed;
+  final void Function()? onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +23,24 @@ class NoteTile extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(text),
-        trailing: IconButton(
-          //! didnt work
-          onPressed: () {},
-          icon: const Icon(Icons.more_vert),
+        trailing: Builder(
+          builder:
+              (context) => IconButton(
+                //! didnt work
+                onPressed:
+                    () => showPopover(
+                      height: 100,
+                      width: 100,
+                      context: context,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      bodyBuilder:
+                          (context) => NoteSettings(
+                            onEditTap: onEditPressed,
+                            ondeleteTap: onDeletePressed,
+                          ),
+                    ),
+                icon: const Icon(Icons.more_vert),
+              ),
         ),
       ),
     );

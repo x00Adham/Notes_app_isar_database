@@ -40,6 +40,12 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: const Text('create'),
               ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('cancel'),
+              ),
             ],
           ),
     );
@@ -65,6 +71,12 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pop(context);
                 },
                 child: const Text('update'),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('cancel'),
               ),
             ],
           ),
@@ -107,13 +119,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 25),
           Expanded(
             child: ListView.builder(
               itemCount: currentNotes.length,
               itemBuilder: (context, index) {
                 final note = currentNotes[index];
-                return NoteTile(text: note.title);
+                return NoteTile(
+                  text: note.title,
+                  onDeletePressed: () => deleteNotes(note.id),
+                  onEditPressed: () => updateNotes(note),
+                );
               },
             ),
           ),

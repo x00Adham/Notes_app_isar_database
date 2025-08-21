@@ -62,6 +62,12 @@ class _HomePageState extends State<HomePage> {
             actions: [
               MaterialButton(
                 onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              MaterialButton(
+                onPressed: () {
                   context.read<NoteDatabase>().updateNote(
                     note.id,
                     textController.text,
@@ -70,13 +76,7 @@ class _HomePageState extends State<HomePage> {
                   textController.clear();
                   Navigator.pop(context);
                 },
-                child: const Text('update'),
-              ),
-              MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('cancel'),
+                child: const Text('Update'),
               ),
             ],
           ),

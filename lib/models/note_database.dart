@@ -7,6 +7,7 @@ class NoteDatabase extends ChangeNotifier {
   static late Isar isar;
   //initializing the database
   Future<void> init() async {
+    //initilize the directory
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open([NoteSchema], directory: dir.path);
   }
@@ -14,12 +15,13 @@ class NoteDatabase extends ChangeNotifier {
   //current note list
   List<Note> currentNoteList = [];
 
-  //creating the database
+  //adding newnote to the database
   Future<void> addNote(String text) async {
     final newNote = Note()..title = text;
-
-    await isar.writeTxn(() => isar.notes.put(newNote));
-    fetchNote();
+    if (text.isNotEmpty) {
+  await isar.writeTxn(() => isar.notes.put(newNote));
+  fetchNote();
+}
   }
 
   //reading the database
@@ -32,9 +34,13 @@ class NoteDatabase extends ChangeNotifier {
 
   //updating the database
   Future<void> updateNote(int id, String newtext) async {
+    //get the oldnote from its id
     final oldNote = await isar.notes.get(id);
+    //check if it null
     if (oldNote != null) {
+      //add the title of the newnote to oldnote
       oldNote.title = newtext;
+      //put the note to database
       await isar.writeTxn(() => isar.notes.put(oldNote));
       await fetchNote();
     }
@@ -43,6 +49,7 @@ class NoteDatabase extends ChangeNotifier {
 
   Future<void> deleteNote(int id) async {
     await isar.writeTxn(() => isar.notes.delete(id));
-    await fetchNote(); // Ensure the UI is updated after deletion
+    await fetchNote();
+     // Ensure the UI is updated after deletion
   }
 }

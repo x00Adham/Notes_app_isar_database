@@ -38,8 +38,17 @@ dependencies:
   popover: ^0.3.1
   provider: ^6.1.4
 
+
+
 dev_dependencies:
   build_runner: ^2.4.13
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/images/Notes.png"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

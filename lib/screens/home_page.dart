@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notice_app_isar/models/note.dart';
 import 'package:notice_app_isar/models/note_database.dart';
+import 'package:notice_app_isar/screens/note_page.dart';
 import 'package:notice_app_isar/widgets/mydrawer.dart';
 import 'package:notice_app_isar/widgets/note_tile.dart';
 import 'package:provider/provider.dart';
@@ -33,18 +34,18 @@ class _HomePageState extends State<HomePage> {
             actions: [
               MaterialButton(
                 onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('cancel'),
+              ),
+              MaterialButton(
+                onPressed: () {
                   context.read<NoteDatabase>().addNote(textController.text);
                   // Clear the text field
                   textController.clear();
                   Navigator.pop(context);
                 },
                 child: const Text('create'),
-              ),
-              MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('cancel'),
               ),
             ],
           ),
@@ -125,10 +126,21 @@ class _HomePageState extends State<HomePage> {
               itemCount: currentNotes.length,
               itemBuilder: (context, index) {
                 final note = currentNotes[index];
-                return NoteTile(
-                  text: note.title,
-                  onDeletePressed: () => deleteNotes(note.id),
-                  onEditPressed: () => updateNotes(note),
+                return GestureDetector(
+                  onTap:
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return NotePage(note: note);
+                          },
+                        ),
+                      ),
+                  child: NoteTile(
+                    text: note.title,
+                    onDeletePressed: () => deleteNotes(note.id),
+                    onEditPressed: () => updateNotes(note),
+                  ),
                 );
               },
             ),

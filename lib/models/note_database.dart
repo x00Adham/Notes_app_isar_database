@@ -17,11 +17,14 @@ class NoteDatabase extends ChangeNotifier {
 
   //adding newnote to the database
   Future<void> addNote(String text) async {
-    final newNote = Note()..title = text;
+    final newNote =
+        Note()
+          ..title = text
+          ..content = "";
     if (text.isNotEmpty) {
-  await isar.writeTxn(() => isar.notes.put(newNote));
-  fetchNote();
-}
+      await isar.writeTxn(() => isar.notes.put(newNote));
+      fetchNote();
+    }
   }
 
   //reading the database
@@ -45,11 +48,24 @@ class NoteDatabase extends ChangeNotifier {
       await fetchNote();
     }
   }
+
+  Future<void> addNoteContent(int id, String content) async {
+    //get the oldnote from its id
+    final oldNote = await isar.notes.get(id);
+    //check if it null
+    if (oldNote != null) {
+      //add the title of the newnote to oldnote
+      oldNote.content = content;
+      //put the note to database
+      await isar.writeTxn(() => isar.notes.put(oldNote));
+      await fetchNote();
+    }
+  }
   //deleting the database
 
   Future<void> deleteNote(int id) async {
     await isar.writeTxn(() => isar.notes.delete(id));
     await fetchNote();
-     // Ensure the UI is updated after deletion
+    // Ensure the UI is updated after deletion
   }
 }
